@@ -1,4 +1,4 @@
-package me.ashutoshkk.stocksapp.ui.theme
+package me.ashutoshkk.stocksapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
