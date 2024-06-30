@@ -1,29 +1,36 @@
 package me.ashutoshkk.stonks.presentation.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
+import me.ashutoshkk.stonks.R
 import me.ashutoshkk.stonks.presentation.ui.home.components.StockType
 import me.ashutoshkk.stonks.presentation.ui.home.components.TopGainersLosersScreen
+import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -35,12 +42,21 @@ fun HomeScreen() {
     val selectedTabIndex by remember {
         derivedStateOf { pagerState.currentPage }
     }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         topBar = {
             TopAppBar(
+                scrollBehavior = scrollBehavior,
                 title = {
-                    Text("Home Screen")
-                }
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        color = StonksTheme.colorScheme.text,
+                        style = StonksTheme.typography.titleLarge
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    scrolledContainerColor = MaterialTheme.colorScheme.background
+                )
             )
         }
     ) {
@@ -48,6 +64,7 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(it)
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             TabRow(
                 selectedTabIndex = selectedTabIndex,
@@ -57,7 +74,8 @@ fun HomeScreen() {
                     Tab(
                         text = {
                             Text(
-                                text = stringResource(id = it.text)
+                                text = stringResource(id = it.text),
+                                style = StonksTheme.typography.titleMedium
                             )
                         },
                         selected = selectedTabIndex == it.ordinal,
