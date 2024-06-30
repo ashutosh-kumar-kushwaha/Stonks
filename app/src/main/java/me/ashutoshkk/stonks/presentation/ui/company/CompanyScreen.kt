@@ -34,9 +34,10 @@ fun CompanyScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(it)
+                .padding(StonksTheme.paddings.allMedium),
+            verticalArrangement = Arrangement.spacedBy(StonksTheme.paddings.verticalInBetween)
         ) {
-            uiState?.let { uiState ->
-                val company = uiState.company
+            uiState.company?.let { company ->
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -70,14 +71,14 @@ fun CompanyScreen() {
                     style = StonksTheme.typography.titleMedium,
                     color = StonksTheme.colorScheme.text
                 )
-                Spacer(modifier = Modifier.height(StonksTheme.paddings.verticalInBetween))
                 Text(
                     text = company.description,
                     style = StonksTheme.typography.bodyMedium,
                     color = StonksTheme.colorScheme.subText
                 )
                 FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(StonksTheme.paddings.horizontal)
+                    horizontalArrangement = Arrangement.spacedBy(StonksTheme.paddings.horizontal),
+                    verticalArrangement = Arrangement.spacedBy(StonksTheme.paddings.vertical)
                 ) {
                     CompanyInfo("Industry " + company.industry)
                     CompanyInfo("Sector " + company.sector)

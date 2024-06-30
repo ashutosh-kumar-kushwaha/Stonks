@@ -11,6 +11,7 @@ import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import me.ashutoshkk.stonks.R
@@ -24,7 +25,8 @@ fun CompanyPriceInfo(company: Company) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.spacedBy(StonksTheme.paddings.vertical, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(id = R.string.week_low),
@@ -39,7 +41,8 @@ fun CompanyPriceInfo(company: Company) {
         }
         Column(
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val sliderState = remember {
                 SliderState(
@@ -54,7 +57,8 @@ fun CompanyPriceInfo(company: Company) {
             )
         }
         Column(
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.spacedBy(StonksTheme.paddings.vertical, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(id = R.string.week_high),
