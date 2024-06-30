@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import me.ashutoshkk.stonks.presentation.ui.theme.StocksAppTheme
+import me.ashutoshkk.stonks.presentation.ui.theme.StonksAppTheme
 
 
 @AndroidEntryPoint
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            StocksAppTheme {
+            StonksAppTheme {
 
             }
         }

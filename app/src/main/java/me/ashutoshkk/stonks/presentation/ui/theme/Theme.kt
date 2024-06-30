@@ -77,7 +77,7 @@ data class Paddings(
 private val LocalPaddings = staticCompositionLocalOf { Paddings() }
 
 @Composable
-fun StocksAppTheme(
+fun StonksAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
@@ -105,7 +105,7 @@ fun StocksAppTheme(
     )
 }
 
-object StocksTheme {
+object StonksTheme {
     val colorScheme: ColorScheme
         @Composable
         @ReadOnlyComposable
