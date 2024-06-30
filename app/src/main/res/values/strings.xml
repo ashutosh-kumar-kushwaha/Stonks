@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Stocks App</string>
+    <string name="top_gainers">Top Gainers</string>
+    <string name="top_losers">Top Losers</string>
 </resources>

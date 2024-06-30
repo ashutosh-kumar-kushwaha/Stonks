@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = ){
+    NavHost(navController = navController, startDestination = Screen.Home.route){
 
     }
 }
