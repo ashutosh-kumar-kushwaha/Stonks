@@ -1,9 +1,13 @@
 package me.ashutoshkk.stonks.common
 
+import androidx.compose.ui.graphics.Color
+
 object Constants {
 
-    const val BASE_URL = "https://api.example.com/"
+    const val BASE_URL = "https://www.alphavantage.co/"
 //    const val API_KEY = "CWM5EGLE634DF0JM"
     const val API_KEY = "demo"
+
+    val logoColors = listOf(Color.Red, Color.Green, Color.Magenta, Color.Cyan)
 
 }

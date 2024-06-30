@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import me.ashutoshkk.stonks.presentation.ui.home.HomeScreen
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksAppTheme
 
 
@@ -18,7 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StonksAppTheme {
-
+                App()
             }
         }
     }
@@ -28,6 +30,8 @@ class MainActivity : ComponentActivity() {
 fun App() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.Home.route){
-
+        composable(route = Screen.Home.route){
+            HomeScreen()
+        }
     }
 }

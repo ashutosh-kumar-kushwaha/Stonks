@@ -1,21 +1,17 @@
 package me.ashutoshkk.stonks.presentation.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -27,13 +23,13 @@ data class ColorScheme(
     val subText: Color,
     val textFieldBackground: Color,
     val heading: Color,
-    val borderColor: Color,
-    val focusedBorderColor: Color,
-    val iconColor: Color,
-    val cursorColor: Color,
+    val border: Color,
+    val focusedBorder: Color,
+    val icon: Color,
+    val cursor: Color,
 )
 
-private val colors = ColorScheme(
+private val colorsSchemeLight = ColorScheme(
     background = Color.White,
     onBackground = Color.Black,
     text = Color.Black,
@@ -41,21 +37,35 @@ private val colors = ColorScheme(
     subText = Color.Gray,
     textFieldBackground = Color(0xFFF2F7FD),
     heading = Color(0xFF171B21),
-    borderColor = Color(0xFFE7F0F8),
-    focusedBorderColor = Color(0xFFE1E8EF),
-    iconColor = Color.Black,
-    cursorColor = Color.Black
+    border = Color(0xFFE7F0F8),
+    focusedBorder = Color(0xFFE1E8EF),
+    icon = Color.Black,
+    cursor = Color.Black,
 )
 
-private val lightColors = lightColorScheme(
-    primary = primary
+private val colorsSchemeDark = ColorScheme(
+    background = Color.White,
+    onBackground = Color.Black,
+    text = Color.White,
+    text2 = Color.Black,
+    subText = Color.Gray,
+    textFieldBackground = Color(0xFFF2F7FD),
+    heading = Color(0xFF171B21),
+    border = Color(0xFFE7F0F8),
+    focusedBorder = Color(0xFFE1E8EF),
+    icon = Color.White,
+    cursor = Color.Black,
 )
 
-private val darkColors = darkColorScheme(
-    primary = primary
+private val DarkColorPalette = darkColorScheme(
+    primary = primaryDark
 )
 
-private val LocalColorScheme = compositionLocalOf { colors }
+private val LightColorPalette = lightColorScheme(
+    primary = primaryLight
+)
+
+private lateinit var LocalColorScheme: ProvidableCompositionLocal<ColorScheme>
 
 @Immutable
 data class Paddings(
@@ -79,27 +89,29 @@ private val LocalPaddings = staticCompositionLocalOf { Paddings() }
 @Composable
 fun StonksAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val localColorScheme = if (darkTheme) {
+        colorsSchemeDark
+    } else {
+        colorsSchemeLight
+    }
 
-        darkTheme -> lightColors
-        else -> darkColors
+    LocalColorScheme = staticCompositionLocalOf { localColorScheme }
+
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
     }
 
     CompositionLocalProvider {
-        LocalColorScheme provides colors
+        LocalColorScheme provides localColorScheme
         LocalPaddings provides Paddings()
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colors,
         typography = Typography,
         content = content
     )

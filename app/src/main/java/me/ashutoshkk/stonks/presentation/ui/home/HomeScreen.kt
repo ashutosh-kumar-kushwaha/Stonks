@@ -22,6 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
+import me.ashutoshkk.stonks.presentation.ui.home.components.StockType
+import me.ashutoshkk.stonks.presentation.ui.home.components.TopGainersLosersScreen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -74,8 +76,8 @@ fun HomeScreen() {
                     .weight(1f)
             ) { page ->
                 when (page) {
-                    0 -> TopGainersScreen(uiState.value.topGainers)
-                    1 -> TopLosersScreen(uiState.value.topLosers)
+                    0 -> TopGainersLosersScreen(uiState.value.topGainers, StockType.Gainer)
+                    1 -> TopGainersLosersScreen(uiState.value.topLosers, StockType.Loser)
                 }
             }
         }
