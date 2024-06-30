@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "me.ashutoshkk.stocksapp"
+    namespace = "me.ashutoshkk.stonks"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "me.ashutoshkk.stocksapp"
+        applicationId = "me.ashutoshkk.stonks"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.13"
     }
     packaging {
         resources {
