@@ -2,4 +2,11 @@
     <string name="app_name">Stonks</string>
     <string name="top_gainers">Top Gainers</string>
     <string name="top_losers">Top Losers</string>
+    <string name="week_low">52-Week Low</string>
+    <string name="week_high">52-Week High</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="pe_ratio">P/E ratio</string>
+    <string name="beta">Beta</string>
+    <string name="dividend_yield">Dividend Yield</string>
+    <string name="profit_margin">Profit Margin</string>
 </resources>

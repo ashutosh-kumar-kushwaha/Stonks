@@ -1,6 +1,7 @@
 package me.ashutoshkk.stonks.presentation.ui.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,25 +22,22 @@ import me.ashutoshkk.stonks.domain.model.Stock
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 
 @Composable
-fun StockItem(stock: Stock, stockType: StockType) {
-    Card {
+fun StockItem(
+    stock: Stock,
+    stockType: StockType,
+    onCompanyClick: () -> Unit
+) {
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onCompanyClick)
+    ){
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(StonksTheme.paddings.allMedium)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(logoColors.random(), CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "A",
-                    style = StonksTheme.typography.headlineLarge,
-                    color = StonksTheme.colorScheme.text
-                )
-            }
+            CompanyLogo(name = stock.ticker)
             Spacer(modifier = Modifier.height(StonksTheme.paddings.verticalInBetween))
             Text(
                 text = stock.ticker,

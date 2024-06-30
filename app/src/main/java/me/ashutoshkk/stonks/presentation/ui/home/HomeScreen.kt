@@ -1,7 +1,6 @@
 package me.ashutoshkk.stonks.presentation.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,7 +32,9 @@ import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navigateTo: (String) -> Unit
+) {
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
@@ -94,8 +94,8 @@ fun HomeScreen() {
                     .weight(1f)
             ) { page ->
                 when (page) {
-                    0 -> TopGainersLosersScreen(uiState.value.topGainers, StockType.Gainer)
-                    1 -> TopGainersLosersScreen(uiState.value.topLosers, StockType.Loser)
+                    0 -> TopGainersLosersScreen(uiState.value.topGainers, StockType.Gainer, navigateTo)
+                    1 -> TopGainersLosersScreen(uiState.value.topLosers, StockType.Loser, navigateTo)
                 }
             }
         }

@@ -7,10 +7,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import me.ashutoshkk.stonks.domain.model.Stock
+import me.ashutoshkk.stonks.presentation.Screen
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 
 @Composable
-fun TopGainersLosersScreen(list: List<Stock>, stockType: StockType) {
+fun TopGainersLosersScreen(
+    list: List<Stock>,
+    stockType: StockType,
+    navigateTo: (String) -> Unit
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(StonksTheme.paddings.horizontal),
@@ -18,7 +23,9 @@ fun TopGainersLosersScreen(list: List<Stock>, stockType: StockType) {
         contentPadding = PaddingValues(StonksTheme.paddings.allMedium)
     ) {
         items(list) { stock ->
-            StockItem(stock, stockType)
+            StockItem(stock, stockType){
+                navigateTo(Screen.Company.createRoute(stock.ticker))
+            }
         }
     }
 }
