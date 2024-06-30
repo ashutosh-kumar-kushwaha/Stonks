@@ -69,10 +69,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
     implementation(libs.androidx.ui.text.google.fonts)
 
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.hilt.android)
     ksp (libs.hilt.compiler)
