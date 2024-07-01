@@ -55,15 +55,21 @@ class CompanyViewModel @Inject constructor(
         useCase.getIntraDayPrices(ticker).onEach { response ->
             when (response) {
                 is Resource.Loading -> {
-                    _uiState.update { it.copy(isLoading = true) }
+                    _graphUiState.update { it.copy(isLoading = true) }
                 }
 
                 is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false, error = response.message) }
+                    _graphUiState.update { it.copy(isLoading = false) }
                 }
 
                 is Resource.Success -> {
-                    _graphUiState.update { it.copy(day = response.data!!) }
+                    _graphUiState.update {
+                        it.copy(
+                            isLoading = false,
+                            day = response.data!!
+                        )
+                    }
                 }
             }
         }.launchIn(viewModelScope)
@@ -73,11 +79,12 @@ class CompanyViewModel @Inject constructor(
         useCase.getDailyPrices(ticker).onEach { response ->
             when (response) {
                 is Resource.Loading -> {
-                    _uiState.update { it.copy(isLoading = true) }
+                    _graphUiState.update { it.copy(isLoading = true) }
                 }
 
                 is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false, error = response.message) }
+                    _graphUiState.update { it.copy(isLoading = false) }
                 }
 
                 is Resource.Success -> {
@@ -94,6 +101,7 @@ class CompanyViewModel @Inject constructor(
                     val monthModelProducer = ChartEntryModelProducer(monthModelData)
                     _graphUiState.update {
                         it.copy(
+                            isLoading = false,
                             week = GraphData(data.labels.take(7), weekModelProducer),
                             month = GraphData(data.labels.take(30), monthModelProducer)
                         )
@@ -107,11 +115,12 @@ class CompanyViewModel @Inject constructor(
         useCase.getMonthlyPrices(ticker).onEach { response ->
             when (response) {
                 is Resource.Loading -> {
-                    _uiState.update { it.copy(isLoading = true) }
+                    _graphUiState.update { it.copy(isLoading = true) }
                 }
 
                 is Resource.Error -> {
                     _uiState.update { it.copy(isLoading = false, error = response.message) }
+                    _graphUiState.update { it.copy(isLoading = false) }
                 }
 
                 is Resource.Success -> {
@@ -128,6 +137,7 @@ class CompanyViewModel @Inject constructor(
                     val yearModelProducer = ChartEntryModelProducer(yearModelData)
                     _graphUiState.update {
                         it.copy(
+                            isLoading = false,
                             sixMonths = GraphData(data.labels.take(6), sixMonthModelProducer),
                             year = GraphData(data.labels.take(12), yearModelProducer)
                         )
