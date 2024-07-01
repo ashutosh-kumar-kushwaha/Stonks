@@ -1,9 +1,13 @@
 package me.ashutoshkk.stonks.presentation.ui.search
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,12 +15,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.android.awaitFrame
+import me.ashutoshkk.stonks.domain.model.FilterType
 import me.ashutoshkk.stonks.presentation.Screen
 import me.ashutoshkk.stonks.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchHistoryItem
@@ -34,6 +42,7 @@ import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchResultItem
 import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchTextField
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
     navigateTo: (String) -> Unit,
@@ -45,6 +54,16 @@ fun SearchScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    val filterType by viewModel.filterType.collectAsStateWithLifecycle()
+    val filteredSearchResults by remember {
+        derivedStateOf {
+            if (filterType == FilterType.None)
+                uiState.searchResults
+            else
+                uiState.searchResults.filter { it.type == filterType }
+        }
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -86,13 +105,35 @@ fun SearchScreen(
                 focusManager.clearFocus()
                 viewModel.addToSearchHistory()
             }
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(StonksTheme.paddings.horizontal),
+                horizontalArrangement = Arrangement.spacedBy(StonksTheme.paddings.horizontal),
+                verticalArrangement = Arrangement.spacedBy(StonksTheme.paddings.verticalInBetween)
+            ) {
+                FilterType.entries.reversed().forEach {
+                    FilterChip(
+                        selected = filterType == it,
+                        onClick = {
+                            viewModel.updateFilter(it)
+                        },
+                        label = {
+                            Text(
+                                text = it.text,
+                                style = StonksTheme.typography.bodyMedium
+                            )
+                        }
+                    )
+                }
+            }
             if (uiState.isLoading) {
                 ProgressBar()
             } else {
                 LazyColumn(
                     contentPadding = PaddingValues(horizontal = StonksTheme.paddings.horizontal)
                 ) {
-                    if (uiState.searchResults.isEmpty()) {
+                    if (filteredSearchResults.isEmpty()) {
                         items(
                             items = uiState.searchHistory,
                             key = { it.id }
@@ -103,7 +144,7 @@ fun SearchScreen(
                         }
                     } else {
                         items(
-                            items = uiState.searchResults,
+                            items = filteredSearchResults,
                             key = { it.symbol }
                         ) {
                             SearchResultItem(it) {

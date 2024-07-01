@@ -4,7 +4,7 @@ import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import me.ashutoshkk.stonks.domain.model.Type
+import me.ashutoshkk.stonks.domain.model.FilterType
 import java.util.Date
 import java.util.Locale
 
@@ -30,11 +30,11 @@ fun convertToMonth(dateTimeString: String): String {
     return outputFormatter.format(date)
 }
 
-fun convertToType(str: String): Type {
-    Type.entries.forEach {
+fun convertToType(str: String): FilterType {
+    FilterType.entries.forEach {
         if (str == it.name) return it
     }
-    return Type.Equity
+    return FilterType.None
 }
 
 fun isNetworkAvailable(context: Context): Boolean {

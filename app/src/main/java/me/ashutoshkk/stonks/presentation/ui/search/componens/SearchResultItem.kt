@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,15 +34,15 @@ fun SearchResultItem(searchResult: SearchResult, onClick: (String) -> Unit) {
             style = StonksTheme.typography.bodyMedium,
             color = StonksTheme.colorScheme.heading,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f)
         )
-        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = searchResult.type.name,
             style = StonksTheme.typography.bodyMedium,
             color = StonksTheme.colorScheme.text,
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                .background(StonksTheme.colorScheme.textFieldBackground, RoundedCornerShape(8.dp))
                 .padding(StonksTheme.paddings.aroundSmall)
         )
     }

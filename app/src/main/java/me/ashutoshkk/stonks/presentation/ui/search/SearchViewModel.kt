@@ -1,5 +1,6 @@
 package me.ashutoshkk.stonks.presentation.ui.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.ashutoshkk.stonks.common.Resource
 import me.ashutoshkk.stonks.data.room.SearchHistory
+import me.ashutoshkk.stonks.domain.model.FilterType
 import me.ashutoshkk.stonks.domain.useCase.SearchUseCase
 import javax.inject.Inject
 
@@ -32,6 +34,9 @@ class SearchViewModel @Inject constructor(
         _searchText.value = text
     }
 
+    private val _filterType = MutableStateFlow(FilterType.None)
+    val filterType = _filterType.asStateFlow()
+
     init {
         handleSearchQuery()
         getSearchHistory()
@@ -47,6 +52,7 @@ class SearchViewModel @Inject constructor(
                 search(it).onEach { response ->
                     when (response) {
                         is Resource.Success -> {
+                            Log.d("Ashu", response.data.toString())
                             _uiState.update {
                                 it.copy(
                                     isLoading = false,
@@ -98,6 +104,10 @@ class SearchViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    fun updateFilter(type: FilterType) {
+        _filterType.value = type
     }
 
 }

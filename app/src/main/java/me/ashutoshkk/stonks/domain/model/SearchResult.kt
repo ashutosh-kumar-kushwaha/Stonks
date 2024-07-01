@@ -3,9 +3,12 @@ package me.ashutoshkk.stonks.domain.model
 data class SearchResult(
     val symbol: String,
     val name: String,
-    val type: Type,
+    val type: FilterType,
 )
 
-enum class Type {
-    Equity, ETF, MutualFund
+enum class FilterType(val text: String) {
+    Equity("Equity"),
+    ETF("ETF"),
+    MutualFund("Mutual Fund"),
+    None("All")
 }
