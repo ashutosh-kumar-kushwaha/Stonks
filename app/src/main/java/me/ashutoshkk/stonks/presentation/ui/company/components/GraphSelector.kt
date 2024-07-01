@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import me.ashutoshkk.stonks.presentation.ui.company.GraphType
@@ -56,6 +57,7 @@ fun GraphTypeItem(selectedGraph: GraphType, graphType: GraphType, onGraphSelect:
             Modifier
                 .size(48.dp)
                 .background(MaterialTheme.colorScheme.primary, CircleShape)
+                .clip(CircleShape)
                 .clickable {
                     onGraphSelect()
                 }
