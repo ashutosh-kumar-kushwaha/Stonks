@@ -80,7 +80,11 @@ fun GraphTypeItem(selectedGraph: GraphType, graphType: GraphType, onGraphSelect:
             },
             textAlign = TextAlign.Center,
             style = StonksTheme.typography.headlineSmall,
-            color = StonksTheme.colorScheme.text
+            color = if (selectedGraph == graphType) {
+                StonksTheme.colorScheme.text2
+            } else {
+                StonksTheme.colorScheme.text
+            }
         )
     }
 }
