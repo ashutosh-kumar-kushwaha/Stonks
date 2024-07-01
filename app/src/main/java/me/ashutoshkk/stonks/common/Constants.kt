@@ -10,5 +10,6 @@ object Constants {
     const val API_KEY = "QZ9P7NPXFKJUR04F"
 
     val logoColors = listOf(Color.Red, Color.Green, Color.Magenta, Color.Cyan)
+    const val CACHE_SIZE = (5 * 1024 * 1024).toLong()
 
 }

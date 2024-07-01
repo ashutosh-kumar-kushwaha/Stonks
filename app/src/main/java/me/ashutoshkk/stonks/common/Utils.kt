@@ -1,9 +1,13 @@
 package me.ashutoshkk.stonks.common
 
+import android.content.Context
 import android.icu.text.SimpleDateFormat
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import me.ashutoshkk.stonks.domain.model.Type
 import java.util.Date
 import java.util.Locale
+
 
 fun convertTo12HourFormat(dateTimeString: String): String {
     val inputFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -31,4 +35,18 @@ fun convertToType(str: String): Type {
         if (str == it.name) return it
     }
     return Type.Equity
+}
+
+fun isNetworkAvailable(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val nw = connectivityManager.activeNetwork ?: return false
+    val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+    return when {
+        actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+        actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+        actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+        actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+        else -> false
+    }
 }

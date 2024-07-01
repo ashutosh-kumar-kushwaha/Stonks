@@ -88,4 +88,7 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
+
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
 }
