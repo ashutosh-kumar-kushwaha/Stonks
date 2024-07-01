@@ -1,4 +1,4 @@
-package me.ashutoshkk.stonks.presentation.ui.home.components
+package me.ashutoshkk.stonks.presentation.ui.company.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

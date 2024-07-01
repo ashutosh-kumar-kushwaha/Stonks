@@ -32,7 +32,7 @@ import me.ashutoshkk.stonks.presentation.ui.company.components.GraphSelector
 import me.ashutoshkk.stonks.presentation.ui.company.components.LineChart
 import me.ashutoshkk.stonks.presentation.ui.company.components.OtherInfo
 import me.ashutoshkk.stonks.presentation.ui.home.components.CompanyLogo
-import me.ashutoshkk.stonks.presentation.ui.home.components.ErrorScreen
+import me.ashutoshkk.stonks.presentation.ui.company.components.ErrorScreen
 import me.ashutoshkk.stonks.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 

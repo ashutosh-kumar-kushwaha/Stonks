@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import me.ashutoshkk.stonks.R
 import me.ashutoshkk.stonks.presentation.Screen
+import me.ashutoshkk.stonks.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.stonks.presentation.ui.home.components.StockType
 import me.ashutoshkk.stonks.presentation.ui.home.components.TopGainersLosersScreen
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
@@ -40,7 +41,7 @@ fun HomeScreen(
     navigateTo: (String) -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { HomeTabs.entries.size })
     val selectedTabIndex by remember {
@@ -104,24 +105,28 @@ fun HomeScreen(
                     )
                 }
             }
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) { page ->
-                when (page) {
-                    0 -> TopGainersLosersScreen(
-                        uiState.value.topGainers,
-                        StockType.Gainer,
-                        navigateTo
-                    )
+            if (uiState.isLoading) {
+                ProgressBar()
+            } else {
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) { page ->
+                    when (page) {
+                        0 -> TopGainersLosersScreen(
+                            uiState.topGainers,
+                            StockType.Gainer,
+                            navigateTo
+                        )
 
-                    1 -> TopGainersLosersScreen(
-                        uiState.value.topLosers,
-                        StockType.Loser,
-                        navigateTo
-                    )
+                        1 -> TopGainersLosersScreen(
+                            uiState.topLosers,
+                            StockType.Loser,
+                            navigateTo
+                        )
+                    }
                 }
             }
         }
