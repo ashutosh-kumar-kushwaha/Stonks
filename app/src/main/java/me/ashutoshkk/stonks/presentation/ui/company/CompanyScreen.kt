@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +32,8 @@ import me.ashutoshkk.stonks.presentation.ui.company.components.GraphSelector
 import me.ashutoshkk.stonks.presentation.ui.company.components.LineChart
 import me.ashutoshkk.stonks.presentation.ui.company.components.OtherInfo
 import me.ashutoshkk.stonks.presentation.ui.home.components.CompanyLogo
+import me.ashutoshkk.stonks.presentation.ui.home.components.ErrorScreen
+import me.ashutoshkk.stonks.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -40,6 +45,7 @@ fun CompanyScreen() {
     var selectedGraph by remember {
         mutableStateOf(GraphType.Day)
     }
+    val company = uiState.company
     val graphData = when (selectedGraph) {
         GraphType.Day -> graphUiState.day
         GraphType.Week -> graphUiState.week
@@ -47,7 +53,12 @@ fun CompanyScreen() {
         GraphType.SixMonth -> graphUiState.sixMonths
         GraphType.Year -> graphUiState.year
     }
-    Scaffold {
+    val snackbarHostState = remember { SnackbarHostState() }
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+    ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -56,7 +67,7 @@ fun CompanyScreen() {
                 .padding(StonksTheme.paddings.allMedium),
             verticalArrangement = Arrangement.spacedBy(StonksTheme.paddings.verticalInBetween)
         ) {
-            uiState.company?.let { company ->
+            if (company != null) {
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -85,13 +96,15 @@ fun CompanyScreen() {
                         )
                     }
                 }
-                if (graphData == null) {
-                    viewModel.fetchGraphData(selectedGraph)
+                if (graphUiState.isLoading) {
+                    ProgressBar()
                 } else {
-                    LineChart(
-                        labels = graphData.labels,
-                        modelProducer = graphData.modelProducer
-                    )
+                    graphData?.let {
+                        LineChart(
+                            labels = it.labels,
+                            modelProducer = it.modelProducer
+                        )
+                    }
                 }
                 GraphSelector(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -116,10 +129,28 @@ fun CompanyScreen() {
                     CompanyInfo("Industry " + company.industry)
                     CompanyInfo("Sector " + company.sector)
                 }
-                if(company.analystTargetPrice.toFloatOrNull() != null){
+                if (company.analystTargetPrice.toFloatOrNull() != null) {
                     CompanyPriceInfo(company)
                 }
                 OtherInfo(company)
+            } else if (uiState.isLoading) {
+                ProgressBar()
+            } else {
+                ErrorScreen {
+                    viewModel.getCompanyInfo()
+                    viewModel.fetchGraphData(selectedGraph)
+                }
+            }
+        }
+        LaunchedEffect(selectedGraph) {
+            viewModel.fetchGraphData(selectedGraph)
+        }
+        if (!uiState.error.isNullOrBlank()) {
+            LaunchedEffect(Unit) {
+                snackbarHostState.showSnackbar(
+                    message = uiState.error!!
+                )
+                viewModel.resetErrorMessage()
             }
         }
     }

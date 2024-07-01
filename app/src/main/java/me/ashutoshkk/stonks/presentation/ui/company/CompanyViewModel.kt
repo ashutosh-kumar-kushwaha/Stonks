@@ -21,8 +21,7 @@ class CompanyViewModel @Inject constructor(
     private val useCase: CompanyUseCase
 ) : ViewModel() {
 
-        val ticker = savedStateHandle.get<String>("ticker")!!
-//    val ticker = "IBM"
+    val ticker = savedStateHandle.get<String>("ticker")!!
 
     private val _uiState = MutableStateFlow(CompanyUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,10 +31,9 @@ class CompanyViewModel @Inject constructor(
 
     init {
         getCompanyInfo()
-        getIntraDayPrices()
     }
 
-    private fun getCompanyInfo() {
+    fun getCompanyInfo() {
         useCase.getCompanyDetails(ticker).onEach { response ->
             when (response) {
                 is Resource.Loading -> {

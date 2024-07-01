@@ -3,6 +3,7 @@ package me.ashutoshkk.stonks.presentation.ui.company
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 
 data class GraphUiState(
+    val isLoading: Boolean = false,
     val day: GraphData? = null,
     val week: GraphData? = null,
     val month: GraphData? = null,
