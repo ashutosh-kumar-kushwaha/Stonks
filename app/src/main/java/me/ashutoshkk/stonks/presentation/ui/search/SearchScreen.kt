@@ -93,13 +93,19 @@ fun SearchScreen(
                     contentPadding = PaddingValues(horizontal = StonksTheme.paddings.horizontal)
                 ) {
                     if (uiState.searchResults.isEmpty()) {
-                        items(uiState.searchHistory){
-                            SearchHistoryItem(it){
+                        items(
+                            items = uiState.searchHistory,
+                            key = { it.id }
+                        ) {
+                            SearchHistoryItem(it) {
                                 viewModel.onSearchTextChange(it.query)
                             }
                         }
                     } else {
-                        items(uiState.searchResults) {
+                        items(
+                            items = uiState.searchResults,
+                            key = { it.symbol }
+                        ) {
                             SearchResultItem(it) {
                                 viewModel.addToSearchHistory()
                                 navigateTo(Screen.Company.createRoute(it))
