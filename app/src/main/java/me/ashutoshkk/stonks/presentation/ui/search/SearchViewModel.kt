@@ -78,6 +78,9 @@ class SearchViewModel @Inject constructor(
 
     fun clearSearchText() {
         _searchText.value = ""
+        _uiState.update {
+            it.copy(searchResults = emptyList())
+        }
     }
 
     fun getSearchHistory() {

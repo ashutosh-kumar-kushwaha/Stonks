@@ -29,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.android.awaitFrame
 import me.ashutoshkk.stonks.presentation.Screen
 import me.ashutoshkk.stonks.presentation.ui.home.components.ProgressBar
+import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchHistoryItem
 import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchResultItem
 import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchTextField
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
@@ -91,10 +92,18 @@ fun SearchScreen(
                 LazyColumn(
                     contentPadding = PaddingValues(horizontal = StonksTheme.paddings.horizontal)
                 ) {
-                    items(uiState.searchResults) {
-                        SearchResultItem(it) {
-                            viewModel.addToSearchHistory()
-                            navigateTo(Screen.Company.createRoute(it))
+                    if (uiState.searchResults.isEmpty()) {
+                        items(uiState.searchHistory){
+                            SearchHistoryItem(it){
+                                viewModel.onSearchTextChange(it.query)
+                            }
+                        }
+                    } else {
+                        items(uiState.searchResults) {
+                            SearchResultItem(it) {
+                                viewModel.addToSearchHistory()
+                                navigateTo(Screen.Company.createRoute(it))
+                            }
                         }
                     }
                 }

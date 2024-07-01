@@ -30,7 +30,7 @@ class SearchUseCase @Inject constructor(private val repository: SearchRepository
     }
 
     suspend fun getSearchHistory(): List<SearchHistory> =
-        repository.getSearchHistory()
+        repository.getSearchHistory().reversed()
 
     suspend fun addToSearchHistory(history: SearchHistory) = repository.addToSearchHistory(history)
 

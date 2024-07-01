@@ -45,5 +45,5 @@ class AppModule {
         context,
         StonksDatabase::class.java,
         "stonks-database"
-    )
+    ).build()
 }
