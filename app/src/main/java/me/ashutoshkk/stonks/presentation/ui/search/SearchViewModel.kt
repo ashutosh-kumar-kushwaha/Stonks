@@ -11,13 +11,15 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import me.ashutoshkk.stonks.common.Resource
+import me.ashutoshkk.stonks.data.room.SearchHistory
 import me.ashutoshkk.stonks.domain.useCase.SearchUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val search: SearchUseCase
+    private val search: SearchUseCase,
 ) : ViewModel() {
 
     private val _searchText = MutableStateFlow("")
@@ -32,6 +34,7 @@ class SearchViewModel @Inject constructor(
 
     init {
         handleSearchQuery()
+        getSearchHistory()
     }
 
     @OptIn(FlowPreview::class)
@@ -75,6 +78,24 @@ class SearchViewModel @Inject constructor(
 
     fun clearSearchText() {
         _searchText.value = ""
+    }
+
+    fun getSearchHistory() {
+        viewModelScope.launch {
+            val history = search.getSearchHistory()
+            _uiState.update { it.copy(searchHistory = history) }
+        }
+    }
+
+    fun addToSearchHistory() {
+        viewModelScope.launch {
+            search.addToSearchHistory(
+                SearchHistory(
+                    query = searchText.value,
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+        }
     }
 
 }

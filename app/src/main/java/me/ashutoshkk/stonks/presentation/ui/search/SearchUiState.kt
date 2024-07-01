@@ -1,9 +1,11 @@
 package me.ashutoshkk.stonks.presentation.ui.search
 
+import me.ashutoshkk.stonks.data.room.SearchHistory
 import me.ashutoshkk.stonks.domain.model.SearchResult
 
 data class SearchUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
-    val searchResults: List<SearchResult> = emptyList()
+    val searchResults: List<SearchResult> = emptyList(),
+    val searchHistory: List<SearchHistory> = emptyList()
 )

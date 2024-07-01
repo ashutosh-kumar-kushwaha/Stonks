@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import me.ashutoshkk.stonks.common.Resource
 import me.ashutoshkk.stonks.data.remote.dto.toSearchResult
+import me.ashutoshkk.stonks.data.room.SearchHistory
 import me.ashutoshkk.stonks.domain.model.SearchResult
 import me.ashutoshkk.stonks.domain.repository.SearchRepository
 import retrofit2.HttpException
@@ -27,5 +28,10 @@ class SearchUseCase @Inject constructor(private val repository: SearchRepository
             e.printStackTrace()
         }
     }
+
+    suspend fun getSearchHistory(): List<SearchHistory> =
+        repository.getSearchHistory()
+
+    suspend fun addToSearchHistory(history: SearchHistory) = repository.addToSearchHistory(history)
 
 }
