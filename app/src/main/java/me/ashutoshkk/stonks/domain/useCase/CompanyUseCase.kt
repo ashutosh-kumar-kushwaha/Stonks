@@ -1,8 +1,10 @@
 package me.ashutoshkk.stonks.domain.useCase
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import me.ashutoshkk.stonks.common.Resource
+import me.ashutoshkk.stonks.data.remote.dto.GraphDataDto
 import me.ashutoshkk.stonks.data.remote.dto.toCompany
 import me.ashutoshkk.stonks.domain.model.Company
 import me.ashutoshkk.stonks.domain.repository.CompanyRepository
@@ -15,6 +17,25 @@ class CompanyUseCase @Inject constructor(private val repository: CompanyReposito
         emit(Resource.Loading())
         try {
             emit(Resource.Success(repository.getCompanyDetails(ticker).toCompany()))
+        } catch (e: HttpException) {
+            emit(
+                Resource.Error(
+                    e.localizedMessage ?: "An unexpected error occurred\nResponse code: ${e.code()}"
+                )
+            )
+            e.printStackTrace()
+        } catch (e: Exception) {
+            emit(Resource.Error("Couldn't reach the server\nCheck your internet connection"))
+            e.printStackTrace()
+        }
+    }
+
+    fun getDailyPrices(ticker: String): Flow<Resource<GraphDataDto>> = flow {
+        emit(Resource.Loading())
+        try {
+            val data = repository.getDailyPrices(ticker)
+            Log.d("Ashu", data.toString())
+            emit(Resource.Success(data))
         } catch (e: HttpException) {
             emit(
                 Resource.Error(

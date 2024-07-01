@@ -26,9 +26,10 @@ class CompanyViewModel @Inject constructor(
 
     init {
         getCompanyInfo()
+        getDailyPrices()
     }
 
-    fun getCompanyInfo() {
+    private fun getCompanyInfo() {
         useCase.getCompanyDetails("IBM").onEach { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -45,6 +46,26 @@ class CompanyViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
+
+    private fun getDailyPrices(){
+        useCase.getDailyPrices("IBM").onEach { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    _uiState.update { it.copy(isLoading = true) }
+                }
+
+                is Resource.Error -> {
+                    _uiState.update { it.copy(isLoading = false, error = response.message) }
+                }
+
+                is Resource.Success -> {
+//                    _uiState.value = CompanyUiState(response.data!!, dailyPrices = response.data.prices)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+
 
     fun resetErrorMessage(){
         _uiState.update { it.copy(error = null) }
