@@ -71,7 +71,7 @@ private lateinit var LocalColorScheme: ProvidableCompositionLocal<ColorScheme>
 data class Paddings(
     val allLarge: Dp = 20.dp,
     val allMedium: Dp = 16.dp,
-    val aroundSmall: Dp = 8.dp,
+    val aroundSmall: Dp = 4.dp,
     val around: Dp = 8.dp,
     val aroundLarge: Dp = 24.dp,
     val horizontal: Dp = 16.dp,
