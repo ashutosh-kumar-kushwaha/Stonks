@@ -26,7 +26,7 @@ import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
 
 @Composable
 fun rememberMarkerLabelFormatter(labels: List<String>) = MarkerLabelFormatter { markedEntries, _ ->
-    "${labels[markedEntries[0].index]} - ${markedEntries[0].entry.y.toInt()}"
+    "${labels[markedEntries[0].index]} - ${markedEntries[0].entry.y}"
 }
 
 @Composable

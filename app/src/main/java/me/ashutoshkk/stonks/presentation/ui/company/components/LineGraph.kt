@@ -43,10 +43,10 @@ fun LineChart(
                 )
             ),
             axisValuesOverrider = com.patrykandpatrick.vico.core.chart.values.AxisValuesOverrider.fixed(
-                maxY = modelProducer.getModel()?.maxY?.toDouble()?.roundToInt()?.plus(10)?.toFloat(),
-                minY = modelProducer.getModel()?.minY?.toDouble()?.roundToInt()?.minus(10)?.toFloat(),
+                maxY = modelProducer.getModel()?.maxY?.toDouble()?.roundToInt()?.plus(2)?.toFloat(),
+                minY = modelProducer.getModel()?.minY?.toDouble()?.roundToInt()?.minus(2)?.toFloat(),
             ),
-            spacing = 60.dp
+            spacing = 120.dp
         ),
         chartModelProducer = modelProducer,
         bottomAxis = rememberBottomAxis(
