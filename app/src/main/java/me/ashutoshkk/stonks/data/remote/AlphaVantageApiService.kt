@@ -3,6 +3,7 @@ package me.ashutoshkk.stonks.data.remote
 import me.ashutoshkk.stonks.common.Constants.API_KEY
 import me.ashutoshkk.stonks.data.remote.dto.CompanyDto
 import me.ashutoshkk.stonks.data.remote.dto.GraphDataDto
+import me.ashutoshkk.stonks.data.remote.dto.SearchDto
 import me.ashutoshkk.stonks.data.remote.dto.TopGainersLosersDto
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -38,5 +39,11 @@ interface AlphaVantageApiService {
         @Query("symbol") ticker: String,
         @Query("apikey") apiKey: String = API_KEY,
     ): GraphDataDto
+
+    @GET("query?function=SYMBOL_SEARCH")
+    suspend fun search(
+        @Query("keywords") query: String,
+        @Query("apikey") apiKey: String = API_KEY,
+    ): SearchDto
 
 }
