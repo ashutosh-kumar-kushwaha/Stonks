@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.ashutoshkk.stonks.domain.model.SearchResult
 import me.ashutoshkk.stonks.presentation.Screen
 import me.ashutoshkk.stonks.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchResultItem
@@ -61,7 +60,8 @@ fun SearchScreen(
                             .size(24.dp)
                             .clickable {
                                 navigateBack()
-                            }
+                            },
+                        tint = StonksTheme.colorScheme.icon
                     )
                 },
                 trailingIcon = {
@@ -70,7 +70,8 @@ fun SearchScreen(
                         contentDescription = null,
                         modifier = Modifier.clickable {
                             viewModel.clearSearchText()
-                        }
+                        },
+                        tint = StonksTheme.colorScheme.icon
                     )
                 }
             )

@@ -116,7 +116,9 @@ fun CompanyScreen() {
                     CompanyInfo("Industry " + company.industry)
                     CompanyInfo("Sector " + company.sector)
                 }
-                CompanyPriceInfo(company)
+                if(company.analystTargetPrice.toFloatOrNull() != null){
+                    CompanyPriceInfo(company)
+                }
                 OtherInfo(company)
             }
         }

@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import me.ashutoshkk.stonks.presentation.ui.company.CompanyScreen
 import me.ashutoshkk.stonks.presentation.ui.home.HomeScreen
+import me.ashutoshkk.stonks.presentation.ui.search.SearchScreen
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksAppTheme
 
 
@@ -32,12 +33,18 @@ fun App() {
     val navigateTo = { route: String ->
         navController.navigate(route)
     }
+    val navigateBack = {
+        navController.navigateUp()
+    }
     NavHost(navController = navController, startDestination = Screen.Home.route){
         composable(route = Screen.Home.route){
             HomeScreen(navigateTo)
         }
         composable(route = Screen.Company.route){
             CompanyScreen()
+        }
+        composable(route = Screen.Search.route){
+            SearchScreen(navigateTo, navigateBack)
         }
     }
 }

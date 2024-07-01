@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
@@ -21,11 +23,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import me.ashutoshkk.stonks.R
+import me.ashutoshkk.stonks.presentation.Screen
 import me.ashutoshkk.stonks.presentation.ui.home.components.StockType
 import me.ashutoshkk.stonks.presentation.ui.home.components.TopGainersLosersScreen
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
@@ -56,7 +60,20 @@ fun HomeScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     scrolledContainerColor = MaterialTheme.colorScheme.background
-                )
+                ),
+                actions = {
+                    IconButton(
+                        onClick = {
+                            navigateTo(Screen.Search.route)
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.search_icon),
+                            contentDescription = null,
+                            tint = StonksTheme.colorScheme.icon
+                        )
+                    }
+                }
             )
         }
     ) {
@@ -94,8 +111,17 @@ fun HomeScreen(
                     .weight(1f)
             ) { page ->
                 when (page) {
-                    0 -> TopGainersLosersScreen(uiState.value.topGainers, StockType.Gainer, navigateTo)
-                    1 -> TopGainersLosersScreen(uiState.value.topLosers, StockType.Loser, navigateTo)
+                    0 -> TopGainersLosersScreen(
+                        uiState.value.topGainers,
+                        StockType.Gainer,
+                        navigateTo
+                    )
+
+                    1 -> TopGainersLosersScreen(
+                        uiState.value.topLosers,
+                        StockType.Loser,
+                        navigateTo
+                    )
                 }
             }
         }

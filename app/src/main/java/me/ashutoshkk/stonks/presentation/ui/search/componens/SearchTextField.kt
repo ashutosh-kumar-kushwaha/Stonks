@@ -30,13 +30,6 @@ fun SearchTextField(
         onValueChange = onValueChange,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        placeholder = {
-            Text(
-                text = stringResource(id = R.string.search_stocks),
-                style = StonksTheme.typography.bodyMedium,
-                color = StonksTheme.colorScheme.subText,
-            )
-        },
         shape = RoundedCornerShape(12.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = StonksTheme.colorScheme.textFieldBackground,

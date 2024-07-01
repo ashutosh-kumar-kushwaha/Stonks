@@ -8,4 +8,6 @@ sealed class Screen(val route: String) {
         fun createRoute(ticker: String) = "company/$ticker"
     }
 
+    data object Search: Screen("search")
+
 }

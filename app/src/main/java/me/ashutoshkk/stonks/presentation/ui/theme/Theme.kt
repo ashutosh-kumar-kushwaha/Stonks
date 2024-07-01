@@ -49,12 +49,12 @@ private val colorsSchemeDark = ColorScheme(
     text = Color.White,
     text2 = Color.Black,
     subText = Color.Gray,
-    textFieldBackground = Color(0xFFF2F7FD),
+    textFieldBackground = Color(0xFF282D33),
     heading = Color(0xFFD6D0DE),
     border = Color(0xFFE7F0F8),
-    focusedBorder = Color(0xFFE1E8EF),
+    focusedBorder = Color(0xFF3A4148),
     icon = Color.White,
-    cursor = Color.Black,
+    cursor = Color.White,
 )
 
 private val DarkColorPalette = darkColorScheme(
