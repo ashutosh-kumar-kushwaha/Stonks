@@ -1,5 +1,6 @@
 package me.ashutoshkk.stonks.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import me.ashutoshkk.stonks.data.remote.AlphaVantageApiService
 import me.ashutoshkk.stonks.data.remote.dto.SearchDto
 import me.ashutoshkk.stonks.data.room.SearchHistory
@@ -14,7 +15,7 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun search(query: String): SearchDto = apiService.search(query)
 
-    override suspend fun getSearchHistory(): List<SearchHistory> = searchHistoryDao.getAllSearches()
+    override fun getSearchHistory(): Flow<List<SearchHistory>> = searchHistoryDao.getAllSearches()
 
     override suspend fun addToSearchHistory(history: SearchHistory) =
         searchHistoryDao.insertWithLimit(history)

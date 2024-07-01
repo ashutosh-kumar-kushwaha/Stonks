@@ -5,11 +5,14 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 @Dao
 interface SearchHistoryDao {
+
     @Query("SELECT * FROM search_history ORDER BY timestamp ASC")
-    suspend fun getAllSearches(): List<SearchHistory>
+    fun getAllSearches(): Flow<List<SearchHistory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(search: SearchHistory)
@@ -27,7 +30,7 @@ interface SearchHistoryDao {
             deleteById(existingSearch.id)
         }
 
-        val searches = getAllSearches()
+        val searches = getAllSearches().first()
         if (searches.size >= 5) {
             deleteById(searches[0].id)
         }

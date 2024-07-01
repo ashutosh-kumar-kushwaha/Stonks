@@ -83,11 +83,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getSearchHistory() {
-        viewModelScope.launch {
-            val history = search.getSearchHistory()
-            _uiState.update { it.copy(searchHistory = history) }
-        }
+    private fun getSearchHistory() {
+        search.getSearchHistory().onEach { history ->
+            _uiState.update { it.copy(searchHistory = history.reversed()) }
+        }.launchIn(viewModelScope)
     }
 
     fun addToSearchHistory() {

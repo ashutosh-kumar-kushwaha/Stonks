@@ -29,8 +29,7 @@ class SearchUseCase @Inject constructor(private val repository: SearchRepository
         }
     }
 
-    suspend fun getSearchHistory(): List<SearchHistory> =
-        repository.getSearchHistory().reversed()
+    fun getSearchHistory(): Flow<List<SearchHistory>> = repository.getSearchHistory()
 
     suspend fun addToSearchHistory(history: SearchHistory) = repository.addToSearchHistory(history)
 
