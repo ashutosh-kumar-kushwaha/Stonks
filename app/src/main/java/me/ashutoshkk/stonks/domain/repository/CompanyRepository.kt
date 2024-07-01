@@ -9,4 +9,8 @@ interface CompanyRepository {
 
     suspend fun getIntraDayPrices(ticker: String): GraphDataDto
 
+    suspend fun getDailyPrices(ticker: String): GraphDataDto
+
+    suspend fun getMonthlyPrices(ticker: String): GraphDataDto
+
 }

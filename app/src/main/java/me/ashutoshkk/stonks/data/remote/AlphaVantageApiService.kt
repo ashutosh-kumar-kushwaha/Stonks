@@ -27,4 +27,16 @@ interface AlphaVantageApiService {
         @Query("interval") interval: String = "60min"
     ): GraphDataDto
 
+    @GET("query?function=TIME_SERIES_DAILY")
+    suspend fun getDailyPrices(
+        @Query("symbol") ticker: String,
+        @Query("apikey") apiKey: String = API_KEY,
+    ): GraphDataDto
+
+    @GET("query?function=TIME_SERIES_MONTHLY")
+    suspend fun getMonthlyPrices(
+        @Query("symbol") ticker: String,
+        @Query("apikey") apiKey: String = API_KEY,
+    ): GraphDataDto
+
 }

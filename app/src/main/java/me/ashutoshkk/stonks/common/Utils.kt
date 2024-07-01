@@ -10,3 +10,17 @@ fun convertTo12HourFormat(dateTimeString: String): String {
     val date: Date = inputFormatter.parse(dateTimeString)!!
     return outputFormatter.format(date)
 }
+
+fun convertToDate(dateTimeString: String): String {
+    val inputFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormatter = SimpleDateFormat("dd MMM", Locale.getDefault())
+    val date: Date = inputFormatter.parse(dateTimeString)!!
+    return outputFormatter.format(date)
+}
+
+fun convertToMonth(dateTimeString: String): String {
+    val inputFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormatter = SimpleDateFormat("MMM yyyy", Locale.getDefault())
+    val date: Date = inputFormatter.parse(dateTimeString)!!
+    return outputFormatter.format(date)
+}
