@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.ashutoshkk.stonks.presentation.ui.company.components.CompanyInfo
 import me.ashutoshkk.stonks.presentation.ui.company.components.CompanyPriceInfo
+import me.ashutoshkk.stonks.presentation.ui.company.components.LineChart
 import me.ashutoshkk.stonks.presentation.ui.company.components.OtherInfo
 import me.ashutoshkk.stonks.presentation.ui.home.components.CompanyLogo
 import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
@@ -28,6 +30,7 @@ import me.ashutoshkk.stonks.presentation.ui.theme.StonksTheme
 fun CompanyScreen() {
     val viewModel: CompanyViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val graphUiState by viewModel.graphUiState.collectAsStateWithLifecycle()
     Scaffold {
         Column(
             modifier = Modifier
@@ -64,6 +67,12 @@ fun CompanyScreen() {
                             color = StonksTheme.colorScheme.subText
                         )
                     }
+                }
+                graphUiState.day?.let {
+                    LineChart(
+                        labels = it.labels,
+                        modelProducer = it.modelProducer
+                    )
                 }
                 Text(
                     text = "About ${company.name}",

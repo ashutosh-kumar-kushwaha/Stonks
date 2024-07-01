@@ -7,7 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.ashutoshkk.stonks.common.Constants.BASE_URL
 import me.ashutoshkk.stonks.data.remote.AlphaVantageApiService
-import me.ashutoshkk.stonks.data.remote.deserializer.GraphPointsDeserializer
+import me.ashutoshkk.stonks.data.remote.deserializer.GraphDataDeserializer
 import me.ashutoshkk.stonks.data.remote.dto.GraphDataDto
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,7 +24,7 @@ class AppModule {
         .addConverterFactory(
             GsonConverterFactory.create(
                 GsonBuilder()
-                    .registerTypeAdapter(GraphDataDto::class.java, GraphPointsDeserializer())
+                    .registerTypeAdapter(GraphDataDto::class.java, GraphDataDeserializer())
                     .create()
             )
         )

@@ -82,4 +82,6 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
 
     implementation(libs.coil.compose)
+
+    implementation(libs.vico.compose.m3)
 }

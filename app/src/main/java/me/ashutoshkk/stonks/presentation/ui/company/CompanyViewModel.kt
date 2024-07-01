@@ -24,6 +24,9 @@ class CompanyViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CompanyUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val _graphUiState = MutableStateFlow(GraphUiState())
+    val graphUiState = _graphUiState.asStateFlow()
+
     init {
         getCompanyInfo()
         getDailyPrices()
@@ -47,7 +50,7 @@ class CompanyViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getDailyPrices(){
+    private fun getDailyPrices() {
         useCase.getDailyPrices("IBM").onEach { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -59,15 +62,14 @@ class CompanyViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-//                    _uiState.value = CompanyUiState(response.data!!, dailyPrices = response.data.prices)
+                    _graphUiState.update { it.copy(day = response.data!!) }
                 }
             }
         }.launchIn(viewModelScope)
     }
 
 
-
-    fun resetErrorMessage(){
+    fun resetErrorMessage() {
         _uiState.update { it.copy(error = null) }
     }
 

@@ -1,9 +1,9 @@
 package me.ashutoshkk.stonks.data.remote.dto
 
 data class PriceDto(
-    val open: Double,
-    val high: Double,
-    val low: Double,
-    val close: Double,
+    val open: Float,
+    val high: Float,
+    val low: Float,
+    val close: Float,
     val volume: Long,
 )
