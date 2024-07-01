@@ -32,10 +32,10 @@ class CompanyUseCase @Inject constructor(private val repository: CompanyReposito
         }
     }
 
-    fun getDailyPrices(ticker: String): Flow<Resource<GraphData>> = flow {
+    fun getIntraDayPrices(ticker: String): Flow<Resource<GraphData>> = flow {
         emit(Resource.Loading())
         try {
-            val data = repository.getDailyPrices(ticker).toDay()
+            val data = repository.getIntraDayPrices(ticker).toDay()
             val lineEntryModelData = mutableListOf<FloatEntry>()
             data.values.take(24).forEachIndexed { index, value ->
                 lineEntryModelData.add(FloatEntry(index.toFloat(), value))

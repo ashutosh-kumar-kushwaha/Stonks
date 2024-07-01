@@ -21,7 +21,7 @@ interface AlphaVantageApiService {
     ): CompanyDto
 
     @GET("query?function=TIME_SERIES_INTRADAY")
-    suspend fun getDailyPrices(
+    suspend fun getIntaDayPrices(
         @Query("symbol") ticker: String,
         @Query("apikey") apiKey: String = API_KEY,
         @Query("interval") interval: String = "60min"

@@ -11,6 +11,6 @@ class CompanyRepositoryImpl @Inject constructor(private val apiService: AlphaVan
 
     override suspend fun getCompanyDetails(ticker: String): CompanyDto = apiService.getCompanyDetails(ticker)
 
-    override suspend fun getDailyPrices(ticker: String): GraphDataDto = apiService.getDailyPrices(ticker)
+    override suspend fun getIntraDayPrices(ticker: String): GraphDataDto = apiService.getIntaDayPrices(ticker)
 
 }

@@ -7,6 +7,6 @@ interface CompanyRepository {
 
     suspend fun getCompanyDetails(ticker: String): CompanyDto
 
-    suspend fun getDailyPrices(ticker: String): GraphDataDto
+    suspend fun getIntraDayPrices(ticker: String): GraphDataDto
 
 }

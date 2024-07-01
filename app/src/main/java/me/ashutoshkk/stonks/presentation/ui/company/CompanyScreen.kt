@@ -14,12 +14,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.ashutoshkk.stonks.presentation.ui.company.components.CompanyInfo
 import me.ashutoshkk.stonks.presentation.ui.company.components.CompanyPriceInfo
+import me.ashutoshkk.stonks.presentation.ui.company.components.GraphSelector
 import me.ashutoshkk.stonks.presentation.ui.company.components.LineChart
 import me.ashutoshkk.stonks.presentation.ui.company.components.OtherInfo
 import me.ashutoshkk.stonks.presentation.ui.home.components.CompanyLogo
@@ -31,6 +35,16 @@ fun CompanyScreen() {
     val viewModel: CompanyViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val graphUiState by viewModel.graphUiState.collectAsStateWithLifecycle()
+    var selectedGraph by remember {
+        mutableStateOf(GraphType.Day)
+    }
+    val graphData = when(selectedGraph){
+        GraphType.Day -> graphUiState.day
+        GraphType.Week -> graphUiState.week
+        GraphType.Month -> graphUiState.month
+        GraphType.SixMonth -> graphUiState.sixMonths
+        GraphType.Year -> graphUiState.year
+    }
     Scaffold {
         Column(
             modifier = Modifier
@@ -68,11 +82,16 @@ fun CompanyScreen() {
                         )
                     }
                 }
-                graphUiState.day?.let {
+                if(graphData == null) {
+                    viewModel.fetchGraphData(selectedGraph)
+                } else{
                     LineChart(
-                        labels = it.labels,
-                        modelProducer = it.modelProducer
+                        labels = graphData.labels,
+                        modelProducer = graphData.modelProducer
                     )
+                }
+                GraphSelector(selectedGraph = selectedGraph){
+                    selectedGraph = it
                 }
                 Text(
                     text = "About ${company.name}",

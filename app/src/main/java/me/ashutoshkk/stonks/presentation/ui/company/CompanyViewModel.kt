@@ -19,7 +19,8 @@ class CompanyViewModel @Inject constructor(
     private val useCase: CompanyUseCase
 ) : ViewModel() {
 
-    val ticker = savedStateHandle.get<String>("ticker")!!
+//    val ticker = savedStateHandle.get<String>("ticker")!!
+    val ticker = "IBM"
 
     private val _uiState = MutableStateFlow(CompanyUiState())
     val uiState = _uiState.asStateFlow()
@@ -29,11 +30,11 @@ class CompanyViewModel @Inject constructor(
 
     init {
         getCompanyInfo()
-        getDailyPrices()
+        getIntraDayPrices()
     }
 
     private fun getCompanyInfo() {
-        useCase.getCompanyDetails("IBM").onEach { response ->
+        useCase.getCompanyDetails(ticker).onEach { response ->
             when (response) {
                 is Resource.Loading -> {
                     _uiState.update { it.copy(isLoading = true) }
@@ -50,8 +51,8 @@ class CompanyViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getDailyPrices() {
-        useCase.getDailyPrices("IBM").onEach { response ->
+    private fun getIntraDayPrices() {
+        useCase.getIntraDayPrices(ticker).onEach { response ->
             when (response) {
                 is Resource.Loading -> {
                     _uiState.update { it.copy(isLoading = true) }
@@ -68,9 +69,37 @@ class CompanyViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun getWeekPrices(){
+        useCase.getWeeklyPrices(ticker).onEach { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    _uiState.update { it.copy(isLoading = true) }
+                }
+
+                is Resource.Error -> {
+                    _uiState.update { it.copy(isLoading = false, error = response.message) }
+                }
+
+                is Resource.Success -> {
+                    _graphUiState.update { it.copy(week = response.data!!) }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
     fun resetErrorMessage() {
         _uiState.update { it.copy(error = null) }
+    }
+
+    fun fetchGraphData(selectedGraph: GraphType) {
+        when(selectedGraph){
+            GraphType.Day -> getIntraDayPrices()
+            GraphType.Week -> getWeekPrices()
+            GraphType.Month -> TODO()
+            GraphType.SixMonth -> TODO()
+            GraphType.Year -> TODO()
+        }
     }
 
 }

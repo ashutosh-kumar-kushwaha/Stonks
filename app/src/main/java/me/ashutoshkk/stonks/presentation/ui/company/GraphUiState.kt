@@ -14,3 +14,7 @@ data class GraphData(
     val labels: List<String>,
     val modelProducer: ChartEntryModelProducer
 )
+
+enum class GraphType{
+    Day, Week, Month, SixMonth, Year
+}
