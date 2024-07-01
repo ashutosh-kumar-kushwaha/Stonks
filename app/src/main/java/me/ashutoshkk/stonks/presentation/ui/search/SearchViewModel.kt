@@ -96,13 +96,15 @@ class SearchViewModel @Inject constructor(
     }
 
     fun addToSearchHistory() {
-        viewModelScope.launch {
-            search.addToSearchHistory(
-                SearchHistory(
-                    query = searchText.value,
-                    timestamp = System.currentTimeMillis()
+        if (searchText.value.isNotBlank()) {
+            viewModelScope.launch {
+                search.addToSearchHistory(
+                    SearchHistory(
+                        query = searchText.value,
+                        timestamp = System.currentTimeMillis()
+                    )
                 )
-            )
+            }
         }
     }
 
