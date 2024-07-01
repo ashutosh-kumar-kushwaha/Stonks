@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
         getTopGainersLosers()
     }
 
-    private fun getTopGainersLosers() {
+    fun getTopGainersLosers() {
         topGainersLosers().onEach { response ->
             when (response) {
                 is Resource.Loading -> {

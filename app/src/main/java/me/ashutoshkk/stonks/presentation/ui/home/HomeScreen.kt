@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
@@ -46,6 +48,9 @@ fun HomeScreen(
     val pagerState = rememberPagerState(pageCount = { HomeTabs.entries.size })
     val selectedTabIndex by remember {
         derivedStateOf { pagerState.currentPage }
+    }
+    val onRetryClick = {
+        viewModel.getTopGainersLosers()
     }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -71,7 +76,8 @@ fun HomeScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.search_icon),
                             contentDescription = null,
-                            tint = StonksTheme.colorScheme.icon
+                            tint = StonksTheme.colorScheme.icon,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                 }
@@ -118,12 +124,14 @@ fun HomeScreen(
                         0 -> TopGainersLosersScreen(
                             uiState.topGainers,
                             StockType.Gainer,
+                            onRetryClick,
                             navigateTo
                         )
 
                         1 -> TopGainersLosersScreen(
                             uiState.topLosers,
                             StockType.Loser,
+                            onRetryClick,
                             navigateTo
                         )
                     }
