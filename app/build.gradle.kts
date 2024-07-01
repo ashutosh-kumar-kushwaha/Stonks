@@ -84,4 +84,8 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.vico.compose.m3)
+
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
 }

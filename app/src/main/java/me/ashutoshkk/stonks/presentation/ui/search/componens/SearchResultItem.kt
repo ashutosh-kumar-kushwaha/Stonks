@@ -46,6 +46,5 @@ fun SearchResultItem(searchResult: SearchResult, onClick: (String) -> Unit) {
                 .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
                 .padding(StonksTheme.paddings.aroundSmall)
         )
-
     }
 }
