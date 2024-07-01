@@ -20,9 +20,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.android.awaitFrame
 import me.ashutoshkk.stonks.presentation.Screen
 import me.ashutoshkk.stonks.presentation.ui.home.components.ProgressBar
 import me.ashutoshkk.stonks.presentation.ui.search.componens.SearchResultItem
@@ -38,6 +42,8 @@ fun SearchScreen(
     val searchText by viewModel.searchText.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -73,8 +79,12 @@ fun SearchScreen(
                         },
                         tint = StonksTheme.colorScheme.icon
                     )
-                }
-            )
+                },
+                modifier = Modifier.focusRequester(focusRequester),
+            ) {
+                focusManager.clearFocus()
+                viewModel.addToSearchHistory()
+            }
             if (uiState.isLoading) {
                 ProgressBar()
             } else {
@@ -83,6 +93,7 @@ fun SearchScreen(
                 ) {
                     items(uiState.searchResults) {
                         SearchResultItem(it) {
+                            viewModel.addToSearchHistory()
                             navigateTo(Screen.Company.createRoute(it))
                         }
                     }
@@ -96,6 +107,11 @@ fun SearchScreen(
                     )
                     viewModel.resetErrorMessage()
                 }
+            }
+
+            LaunchedEffect(focusRequester) {
+                awaitFrame()
+                focusRequester.requestFocus()
             }
         }
     }
