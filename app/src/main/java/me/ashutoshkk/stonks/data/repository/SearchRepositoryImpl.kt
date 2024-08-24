@@ -1,6 +1,8 @@
 package me.ashutoshkk.stonks.data.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import me.ashutoshkk.stonks.data.remote.AlphaVantageApiService
 import me.ashutoshkk.stonks.data.remote.dto.SearchDto
 import me.ashutoshkk.stonks.data.room.SearchHistory
@@ -13,11 +15,14 @@ class SearchRepositoryImpl @Inject constructor(
     private val searchHistoryDao: SearchHistoryDao
 ) : SearchRepository {
 
-    override suspend fun search(query: String): SearchDto = apiService.search(query)
+    override suspend fun search(query: String): SearchDto = withContext(Dispatchers.IO) {
+        apiService.search(query)
+    }
 
     override fun getSearchHistory(): Flow<List<SearchHistory>> = searchHistoryDao.getAllSearches()
 
-    override suspend fun addToSearchHistory(history: SearchHistory) =
+    override suspend fun addToSearchHistory(history: SearchHistory) = withContext(Dispatchers.IO) {
         searchHistoryDao.insertWithLimit(history)
+    }
 
 }
