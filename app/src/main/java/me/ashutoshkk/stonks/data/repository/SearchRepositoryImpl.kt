@@ -20,7 +20,8 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override fun getSearchHistory(): Flow<List<SearchHistory>> = searchHistoryDao.getAllSearches()
- 
+
+    
     override suspend fun addToSearchHistory(history: SearchHistory) = withContext(Dispatchers.IO) {
         searchHistoryDao.insertWithLimit(history)
     }
